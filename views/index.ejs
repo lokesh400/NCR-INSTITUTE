@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NCR CNC & VMC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom.css" rel="stylesheet" />
+    <script
+        src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
+    <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#469A42"
+        data-border-radius="medium"></script>
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+
+    <style>
+         @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
+  .animate-marquee {
+    display: flex;
+    width: max-content;
+    animation: marquee 10s linear infinite;
+  }
+        .hidden {
+            display: none;
+        }
+
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .whatsapp-sidebar {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .whatsapp-sidebar a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #25D366;
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 10px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+            /* height: 50px; */
+            justify-content: center;
+        }
+
+        .whatsapp-sidebar i {
+            font-size: 24px;
+        }
+
+        .whatsapp-sidebar span {
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .whatsapp-sidebar a:hover {
+            background-color: #1EBE5D;
+            transform: scale(1.1);
+        }
+    </style>
+
+</head>
+
+<body class="font-sans">
+
+    <!-- Floating Vertical Sidebar -->
+    <div class="whatsapp-sidebar">
+        <a href="https://wa.me/+919540032224" target="_blank" aria-label="Chat with us on WhatsApp">
+            <i class="fa-brands fa-whatsapp"></i>
+            <p>Whatsapp</p>
+        </a>
+    </div>
+
+    <div class="max-w-8xl mx-auto px-4">
+        <header class="fixed top-0 left-0 right-0 bg-white z-50 border-b border-gray-100">
+            <div class="max-w-8xl mx-auto px-4">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center gap-3">
+                        <img src="https://ai-public.creatie.ai/gen_page/logo_placeholder.png" alt="Profile"
+                            class="w-10 h-10 rounded-full object-cover" />
+                        <div class="relative">
+                            <button class="flex items-center gap-2 text-gray-700 hover:text-gray-900 !rounded-button">
+                                <span class="font-medium">NCR CNC & VMC Institute</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <a href="/user/login"
+                            class="relative px-4 py-2 bg-custom text-white rounded-lg hover:bg-custom/90">
+                            Login
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section class="relative w-full max-w-7xl mx-auto overflow-hidden mt-20">
+            
+                <div id="banner-carousel" class="flex w-full h-full transition-transform duration-700" style="width: 100%;">
+                    <!-- Banner 1 -->
+                    <div class="min-w-full h-full">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXwyTuLicG6Tv9q-WkssbdP5O9J9qCa_4ZAg&s" class="w-full h-full object-cover" alt="Banner 1">
+                    </div>
+                    <!-- Banner 2 -->
+                    <div class="min-w-full h-full">
+                        <img src="image2.jpg" class="w-full h-full object-cover" alt="Banner 2">
+                    </div>
+                    <!-- Banner 3 -->
+                    <div class="min-w-full h-full">
+                        <img src="image3.jpg" class="w-full h-full object-cover" alt="Banner 3">
+                    </div>
+                </div>
+                <!-- Navigation Buttons -->
+                <button id="prev-btn" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full">❮</button>
+                <button id="next-btn" class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full">❯</button>
+           
+        </section>
+        
+            <!-- Navigation Buttons -->
+            <button id="prevBtn"
+                class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full">
+                &#10094;
+            </button>
+            <button id="nextBtn"
+                class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full">
+                &#10095;
+            </button>
+        </section>
+    
+
+        
+
+        <main class="mt-20 mb-32 min-h-screen flex flex-col">
+            <div class="relative mb-6" data-aos="fade-right" data-aos-delay="100">
+                <input type="text" placeholder="What course are you looking for?"
+                    class="w-full pl-12 pr-12 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:border-custom" />
+                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                <button class="absolute right-4 top-1/2 -translate-y-1/2 !rounded-button">
+                    <i class="fas fa-microphone text-custom"></i>
+                </button>
+            </div>
+            <div class="flex gap-4 mb-8 overflow-x-auto py-2" data-aos="fade-right" data-aos-delay="100">
+                <button
+                    class="flex-none px-6 py-2 bg-white border border-gray-200 rounded-lg text-sm font-medium hover:border-custom !rounded-button">
+                    <i class="fas fa-user-graduate mr-2 text-custom"></i>Admission
+                </button>
+                <a href="/jobs">
+                    <button
+                        class="flex-none px-6 py-2 bg-white border border-gray-200 rounded-lg text-sm font-medium hover:border-custom !rounded-button">
+                        <i class="fas fa-clock mr-2 text-custom"></i>Job Openings
+                    </button>
+                </a>
+                <a href="/facilities">
+                    <button
+                        class="flex-none px-6 py-2 bg-white border border-gray-200 rounded-lg text-sm font-medium hover:border-custom !rounded-button">
+                        <i class="fas fa-dollar-sign mr-2 text-custom"></i>Facilities
+                    </button>
+                </a>
+                <button
+                    class="flex-none px-6 py-2 bg-white border border-gray-200 rounded-lg text-sm font-medium hover:border-custom !rounded-button">
+                    <i class="fas fa-phone mr-2 text-custom"></i>Contact
+                </button>
+            </div>
+            <div class="bg-custom rounded-xl p-6 text-white mb-8">
+                <div class="flex items-start justify-between">
+                    <div>
+                        <h3 class="text-2xl font-bold mb-2">CNC & VMC Training Bootcamp</h3>
+                        <p class="text-green-100 mb-4">Technology &amp; Programming</p>
+                        <div class="flex items-center gap-4 mb-4">
+                            <span class="flex items-center gap-2">
+                                <i class="fas fa-clock"></i>
+                                12 Weeks
+                            </span>
+                            <span class="flex items-center gap-2">
+                                <i class="fas fa-tag"></i>
+                                20% OFF
+                            </span>
+                        </div>
+                        <button
+                            class="bg-white text-custom px-6 py-2 rounded-lg font-medium hover:bg-gray-50 !rounded-button">
+                            Enroll Now
+                        </button>
+                    </div>
+                    <img src="data:image/jpeg;base64,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"
+                        alt="Web Development" class="w-32 h-32 object-contain" />
+                </div>
+            </div>
+            <h2 class="text-xl font-bold mb-4">Course Categories</h2>
+            <div class="grid grid-cols-5 gap-4 mb-8">
+                <button
+                    class="flex flex-col items-center p-4 bg-white rounded-xl hover:shadow-md transition-shadow !rounded-button">
+                    <div class="w-12 h-12 bg-custom/10 rounded-full flex items-center justify-center mb-2">
+                        <i class="fas fa-laptop-code text-custom text-xl"></i>
+                    </div>
+                    <span class="text-sm font-medium">Industrial</span>
+                </button>
+                <button
+                    class="flex flex-col items-center p-4 bg-white rounded-xl hover:shadow-md transition-shadow !rounded-button">
+                    <div class="w-12 h-12 bg-custom/10 rounded-full flex items-center justify-center mb-2">
+                        <i class="fas fa-chart-line text-custom text-xl"></i>
+                    </div>
+                    <span class="text-sm font-medium">Regular Classroom</span>
+                </button>
+                <button
+                    class="flex flex-col items-center p-4 bg-white rounded-xl hover:shadow-md transition-shadow !rounded-button">
+                    <div class="w-12 h-12 bg-custom/10 rounded-full flex items-center justify-center mb-2">
+                        <i class="fas fa-palette text-custom text-xl"></i>
+                    </div>
+                    <span class="text-sm font-medium">Skill Development</span>
+                </button>
+                <button
+                    class="flex flex-col items-center p-4 bg-white rounded-xl hover:shadow-md transition-shadow !rounded-button">
+                    <div class="w-12 h-12 bg-custom/10 rounded-full flex items-center justify-center mb-2">
+                        <i class="fas fa-language text-custom text-xl"></i>
+                    </div>
+                    <span class="text-sm font-medium">Languages</span>
+                </button>
+                <button
+                    class="flex flex-col items-center p-4 bg-white rounded-xl hover:shadow-md transition-shadow !rounded-button">
+                    <div class="w-12 h-12 bg-custom/10 rounded-full flex items-center justify-center mb-2">
+                        <i class="fas fa-camera text-custom text-xl"></i>
+                    </div>
+                    <span class="text-sm font-medium">Media</span>
+                </button>
+            </div>
+            <h2 class="text-xl font-bold mb-4">Popular Courses</h2>
+            <div class="grid grid-cols-2 gap-6 mb-8">
+                <div class="bg-white rounded-xl overflow-hidden hover:shadow-md transition-shadow">
+                    <img src="https://creatie.ai/ai/api/search-image?query=Professional coding workspace setup with modern computer monitors displaying programming code, clean desk setup, soft lighting, minimal style&width=600&height=400&orientation=landscape&flag=26cb59d8-3ab1-4725-932d-51369b042289&flag=d710a676-66eb-4cc6-ab5b-0800023435a3&flag=ce2be6be-c469-4e0d-a223-f88b1472857b"
+                        alt="Python Programming" class="w-full h-48 object-cover" />
+                    <div class="p-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm text-gray-500">8 Weeks</span>
+                            <div class="flex items-center">
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <span class="ml-1 text-sm font-medium">4.8</span>
+                            </div>
+                        </div>
+                        <h3 class="font-semibold mb-2">Python Programming Masterclass</h3>
+                        <button
+                            class="w-full bg-custom text-white py-2 rounded-lg font-medium hover:bg-custom/90 !rounded-button">
+                            View Details
+                        </button>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl overflow-hidden hover:shadow-md transition-shadow">
+                    <img src="https://creatie.ai/ai/api/search-image?query=UI UX design workspace with tablet showing modern app interface designs, creative tools, clean and organized desk setup&width=600&height=400&orientation=landscape&flag=4d1fbf22-3b45-479a-a1ff-80c17796dcce&flag=936555f4-076a-4dd7-a7e1-4dbdfa037ef0&flag=791b3479-6ad7-42ed-bc9e-14d9b53bc535"
+                        alt="UI/UX Design" class="w-full h-48 object-cover" />
+                    <div class="p-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm text-gray-500">10 Weeks</span>
+                            <div class="flex items-center">
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <span class="ml-1 text-sm font-medium">4.9</span>
+                            </div>
+                        </div>
+                        <h3 class="font-semibold mb-2">UI/UX Design Fundamentals</h3>
+                        <button
+                            class="w-full bg-custom text-white py-2 rounded-lg font-medium hover:bg-custom/90 !rounded-button">
+                            View Details
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+
+        <section class="bg-gray-100 py-12 mt-20">
+            <div class="max-w-7xl mx-auto px-6">
+                <h2 class="text-2xl font-bold text-gray-800 text-center mb-6">Our Featured Courses</h2>
+                <div class="relative overflow-hidden">
+                    <div id="carousel" class="flex gap-6 animate-marquee">
+                        <!-- Slide 1 -->
+                        <div class="min-w-[300px] bg-white shadow-lg rounded-lg p-4">
+                            <img src="https://via.placeholder.com/300" alt="Course 1" class="rounded-md mb-3">
+                            <h3 class="font-semibold text-lg">Course Title 1</h3>
+                            <p class="text-gray-600">Short description of the course.</p>
+                        </div>
+                        <!-- Slide 2 -->
+                        <div class="min-w-[300px] bg-white shadow-lg rounded-lg p-4">
+                            <img src="https://via.placeholder.com/300" alt="Course 2" class="rounded-md mb-3">
+                            <h3 class="font-semibold text-lg">Course Title 2</h3>
+                            <p class="text-gray-600">Short description of the course.</p>
+                        </div>
+                        <!-- Slide 3 -->
+                        <div class="min-w-[300px] bg-white shadow-lg rounded-lg p-4">
+                            <img src="https://via.placeholder.com/300" alt="Course 3" class="rounded-md mb-3">
+                            <h3 class="font-semibold text-lg">Course Title 3</h3>
+                            <p class="text-gray-600">Short description of the course.</p>
+                        </div>
+                        <!-- Slide 4 -->
+                        <div class="min-w-[300px] bg-white shadow-lg rounded-lg p-4">
+                            <img src="https://via.placeholder.com/300" alt="Course 4" class="rounded-md mb-3">
+                            <h3 class="font-semibold text-lg">Course Title 4</h3>
+                            <p class="text-gray-600">Short description of the course.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="bg-white rounded-xl p-6 shadow-sm mb-8">
+            <h2 class="text-xl font-bold mb-4">Quick Contact</h2>
+
+            <!-- Form with Loader -->
+            <!-- Form -->
+            <form class="space-y-4" action="/add/new/query" method="POST" id="contactForm">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                    <input type="text" placeholder="Your name" name="name"
+                        class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-custom"
+                        required />
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <input type="email" placeholder="Your email" name="email"
+                        class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-custom"
+                        required />
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Mobile Number</label>
+                    <input type="text" placeholder="Your mobile" name="mobile"
+                        class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-custom"
+                        required />
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                    <textarea placeholder="Your message" rows="4" name="message"
+                        class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-custom"
+                        required></textarea>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" id="submitBtn"
+                    class="w-full bg-custom text-white py-2 rounded-lg font-medium hover:bg-custom/90">
+                    Send Message
+                </button>
+            </form>
+        </div>
+
+        <div id="fullScreenLoader"
+            class="hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black/50 z-50">
+            <div class="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+            <p class="text-white mt-3 text-lg font-medium">Submitting Form...</p>
+        </div>
+
+        <section class="bg-gray-100 py-12">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <!-- Address Section -->
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4">Our Location</h2>
+                        <p class="text-gray-600 mb-4">
+                            Visit us at our institute for CNC & VMC training. We are located at:
+                        </p>
+                        <div class="bg-white p-6 shadow-md rounded-lg">
+                            <p class="flex items-start gap-3 text-gray-700 mb-3">
+                                <i class="fas fa-map-marker-alt text-custom text-xl"></i>
+                                <span>Main Road Sector 22-23 (Hardware to Sohna Road) Near Punjab Rolling Chowk, Nit Faridabad, Haryana</span>
+                            </p>
+                            <p class="flex items-center gap-3 text-gray-700 mb-3">
+                                <i class="fas fa-phone text-custom text-xl"></i>
+                                +91 9871852221
+                            </p>
+                            <p class="flex items-center gap-3 text-gray-700">
+                                <i class="fas fa-envelope text-custom text-xl"></i>
+                                info@ncriot.com
+                            </p>
+                        </div>
+                    </div>
+        
+                    <!-- Google Map Section -->
+                    <div>
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3511.1313288178444!2d77.29670317549065!3d28.354878875817523!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cdbfe54af9fa7%3A0xd9d7f8cf4bd074f8!2sNCR%20institute%20of%20CNC%20%26%20VMC!5e0!3m2!1sen!2sin!4v1741063543999!5m2!1sen!2sin" 
+                            width="100%" height="350" style="border:0; border-radius: 10px;" 
+                            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+
+        
+        <footer class="bg-white border-t border-gray-100 py-12 mt-auto">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 text-center md:text-left">
+                    <!-- About Section -->
+                    <div>
+                        <p class="text-gray-600 mb-4">
+                            Empowering learners worldwide with quality education and professional development opportunities.
+                        </p>
+                        <div class="flex justify-center md:justify-start gap-4">
+                            <a href="#" class="text-gray-400 hover:text-custom"><i class="fab fa-facebook"></i></a>
+                            <a href="#" class="text-gray-400 hover:text-custom"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="text-gray-400 hover:text-custom"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="text-gray-400 hover:text-custom"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+        
+                    <!-- Quick Links -->
+                    <div>
+                        <h4 class="font-semibold mb-4 text-lg">Quick Links</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-600 hover:text-custom">About Us</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-custom">Our Courses</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-custom">Pricing Plans</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-custom">Contact Us</a></li>
+                        </ul>
+                    </div>
+        
+                    <!-- Support -->
+                    <div>
+                        <h4 class="font-semibold mb-4 text-lg">Support</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-600 hover:text-custom">Help Center</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-custom">Terms of Service</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-custom">Privacy Policy</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-custom">FAQ</a></li>
+                        </ul>
+                    </div>
+        
+                    <!-- Contact Info -->
+                    <div>
+                        <h4 class="font-semibold mb-4 text-lg">Contact Info</h4>
+                        <ul class="space-y-2">
+                            <li class="flex items-center justify-center md:justify-start gap-2">
+                                <i class="fas fa-envelope text-custom"></i>
+                                <span class="text-gray-600">info@ncriot.com</span>
+                            </li>
+                            <li class="flex items-center justify-center md:justify-start gap-2">
+                                <i class="fas fa-phone text-custom"></i>
+                                <span class="text-gray-600">+91 9540032224</span>
+                            </li>
+                            <li class="flex items-center justify-center md:justify-start gap-2">
+                                <i class="fas fa-map-marker-alt text-custom"></i>
+                                <span class="text-gray-600 text-sm">
+                                    Main Road Sector 22-23 (Hardware to Sohna Road) Near Punjab Rolling Chowk, Nit Faridabad, Haryana
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+        
+                <!-- Bottom Copyright -->
+                <div class="border-t border-gray-100 mt-8 pt-6 text-center text-gray-500 text-sm">
+                    © 2025 NCR Institute Of CNC & VMC. All rights reserved.
+                </div>
+            </div>
+        </footer>
+        
+
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    const carousel = document.getElementById("carousel");
+    const clone = carousel.innerHTML;
+    carousel.innerHTML += clone; // Duplicates slides for infinite effect
+  });
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+            const carousel = document.getElementById("banner-carousel");
+            const slides = carousel.children;
+            let index = 0;
+        
+            function showSlide(i) {
+              index = (i + slides.length) % slides.length;
+              carousel.style.transform = `translateX(-${index * 100}%)`;
+            }
+        
+            document.getElementById("prevBtn").addEventListener("click", () => showSlide(index - 1));
+            document.getElementById("nextBtn").addEventListener("click", () => showSlide(index + 1));
+        
+            // Auto Slide
+            setInterval(() => showSlide(index + 1), 4000);
+          });
+
+        document.getElementById("contactForm").addEventListener("submit", function (event) {
+            // Prevent default form submission
+            event.preventDefault();
+
+            // Show full-screen loader
+            document.getElementById("fullScreenLoader").classList.remove("hidden");
+
+            // Simulate a delay (Replace this with actual form submission logic)
+            setTimeout(() => {
+                event.target.submit(); // Submit the form after showing the loader
+            }, 2000);
+        });
+        AOS.init({ duration: 1000, once: true });
+    </script>
+</body>
+
+</html>

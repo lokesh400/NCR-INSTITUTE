@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Courses</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+        .course {
+            background: white;
+            padding: 15px;
+            margin: 10px auto;
+            width: 60%;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .delete-btn {
+            background: #e76f51;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>All Courses</h1>
+    <a href="/add-course">Add New Course</a>
+    <br><br>
+
+    <% courses.forEach(course => { %>
+        <div class="course">
+            <div>
+                <h2><%= course.name %></h2>
+                <p><%= course.title %></p>
+                <p>Start: <%= course.startingDate %> | End: <%= course.endingDate %></p>
+                <p>Fee: ₹<%= course.courseFee %></p>
+            </div>
+            <button class="delete-btn" onclick="deleteCourse('<%= course._id %>')">Delete</button>
+        </div>
+    <% }) %>
+
+    <script>
+        async function deleteCourse(id) {
+            if (confirm('Are you sure?')) {
+                await fetch('/courses/' + id, { method: 'DELETE' });
+                window.location.reload();
+            }
+        }
+    </script>
+</body>
+</html>

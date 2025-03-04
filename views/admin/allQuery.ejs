@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enquiries</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0c0c0c;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            opacity: 0;
+        }
+        .enquiry-box {
+            background: #1e1e1e;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 8px;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+    </style>
+</head>
+<body>
+
+    <h1 id="heading">Enquiry List</h1>
+    
+    <% enquiries.forEach(enquiry => { %>
+        <div class="enquiry-box">
+            <h3><%= enquiry.name %></h3>
+            <p><i class="fas fa-phone"></i> <%= enquiry.mobile %></p>
+            <p><i class="fas fa-envelope"></i> <%= enquiry.email %></p>
+            <p><%= enquiry.message %></p>
+        </div>
+    <% }); %>
+
+    <script>
+        gsap.to("#heading", { opacity: 1, y: -10, duration: 1, ease: "power3.out" });
+
+        gsap.to(".enquiry-box", { 
+            opacity: 1, 
+            y: 0, 
+            duration: 1, 
+            stagger: 0.3, 
+            ease: "power3.out" 
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,60 @@
+.hidden {
+  display: none;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.whatsapp-sidebar {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1000;
+}
+
+.whatsapp-sidebar a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #25d366;
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 10px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  /* height: 50px; */
+  justify-content: center;
+}
+
+.whatsapp-sidebar i {
+  font-size: 24px;
+}
+
+.whatsapp-sidebar span {
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.whatsapp-sidebar a:hover {
+  background-color: #1ebe5d;
+  transform: scale(1.1);
+}

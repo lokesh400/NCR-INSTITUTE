@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -16,69 +15,9 @@
         data-border-radius="medium"></script>
     <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
 
-    <style>
-        .hidden {
-            display: none;
-        }
-
-        .animate-spin {
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        .whatsapp-sidebar {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .whatsapp-sidebar a {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: #25D366;
-            color: white;
-            text-decoration: none;
-            padding: 10px;
-            border-radius: 10px;
-            font-family: Arial, sans-serif;
-            font-size: 14px;
-            font-weight: bold;
-            transition: all 0.3s ease-in-out;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-
-            /* height: 50px; */
-            justify-content: center;
-        }
-
-        .whatsapp-sidebar i {
-            font-size: 24px;
-        }
-
-        .whatsapp-sidebar span {
-            font-size: 12px;
-            margin-top: 5px;
-        }
-
-        .whatsapp-sidebar a:hover {
-            background-color: #1EBE5D;
-            transform: scale(1.1);
-        }
-    </style>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<link rel="stylesheet" href="styles/index.css">
 </head>
 
 <body class="font-sans">
@@ -88,7 +27,7 @@
     </section>
    
     <section class="mt-20">
-            <div class="min-w-full">
+            <div class="min-w-full" data-aos="fade-right" data-aos-delay="100">
                 <img src="images/ncr2.jpg" alt="Banner 1" style="width: 100%;" >
             </div>
     </section>
@@ -124,6 +63,7 @@
         
 
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {

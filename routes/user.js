@@ -15,12 +15,16 @@ function ensureAuthenticated(req, res, next) {
 
 // Login route
 router.get("/login", (req, res) => {
-    req.flash('error_msg', 'Welcome back');
-    res.render("./users/login.ejs");
+    if(req.user){
+        res.redirect('/admin');
+    } else {
+        req.flash('error_msg', 'Welcome back');
+        res.render("./users/login.ejs");
+    }
 });
 
 router.post("/login", async (req, res, next) => {
-    // Passport Authentication manually
+   
     passport.authenticate("local", async (err, user, info) => {
         if (err) {
             console.error("Error during authentication:", err);

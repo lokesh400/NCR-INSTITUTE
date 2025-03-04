@@ -2,6 +2,20 @@ const express = require('express');
 const router = express.Router();
 const Job = require('../models/Jobs');
 
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+      return next();
+    }
+    res.redirect('/user/login');
+  }
+  
+  function isAdmin(req, res, next) {
+    if (req.isAuthenticated() && req.user.role === 'admin') {
+      return next();
+    }
+    res.render("./error/accessdenied.ejs");
+  }
+
 // GET all jobs (for display page)
 router.get('/jobs', async (req, res) => {
     try {
@@ -13,12 +27,12 @@ router.get('/jobs', async (req, res) => {
 });
 
 // GET Add Job Page
-router.get('/add-job', (req, res) => {
+router.get('/add-job',ensureAuthenticated,isAdmin, (req, res) => {
     res.render('admin/addJob');
 });
 
 // POST a new job
-router.post('/jobs', async (req, res) => {
+router.post('/jobs',ensureAuthenticated,isAdmin, async (req, res) => {
     try {
         const { title, description, role, company, location } = req.body;
         const newJob = new Job({ title, description, role, company, location });
@@ -30,7 +44,7 @@ router.post('/jobs', async (req, res) => {
 });
 
 // DELETE a job
-router.delete('/jobs/:id', async (req, res) => {
+router.delete('/jobs/:id',ensureAuthenticated,isAdmin, async (req, res) => {
     try {
         await Job.findByIdAndDelete(req.params.id);
         res.json({ message: 'Job deleted successfully' });
@@ -62,7 +76,7 @@ router.post('/:id/apply', async (req, res) => {
     }
 });
 
-router.get('/jobs/:id/applications', async (req, res) => {
+router.get('/jobs/:id/applications',ensureAuthenticated,isAdmin, async (req, res) => {
     try {
         const job = await Job.findById(req.params.id);
         if (!job) {

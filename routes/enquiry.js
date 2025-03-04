@@ -11,6 +11,20 @@ function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
   }
+  res.redirect('/user/login');
+}
+
+function isAdmin(req, res, next) {
+  if (req.isAuthenticated() && req.user.role === 'admin') {
+    return next();
+  }
+  res.render("./error/accessdenied.ejs");
+}
+
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
   res.redirect("/user/login");
 }
 
@@ -62,7 +76,7 @@ router.post("/add/new/query", async (req, res) => {
 });
 
 // queries
-router.get("/enquiries", async (req, res) => {
+router.get("/enquiries",ensureAuthenticated,isAdmin, async (req, res) => {
   try {
     const enquiries = await Enquiry.find();
     res.render("admin/allQuery.ejs", { enquiries });

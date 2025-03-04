@@ -123,12 +123,16 @@ app.get("/", async (req,res)=>{
     res.render("./index.ejs");
 });
 
-app.get("/admin", async (req,res)=>{
+app.get("/admin",ensureAuthenticated,isAdmin, async (req,res)=>{
     res.render("admin/adminIndex.ejs");
 });
 
 app.get("/facilities", async (req,res)=>{
     res.render("./facilities.ejs");
+});
+
+app.get("/gallery", async (req,res)=>{
+  res.render("gallery.ejs");
 });
 
 

@@ -20,7 +20,7 @@ function ensureAuthenticated(req, res, next) {
 router.get('/courses', async (req, res) => {
     try {
         const courses = await Course.find();
-        res.render('admin/allCourses', { courses });
+        res.render('admin/allCourses.ejs', { courses });
     } catch (err) {
         res.status(500).send('Server Error');
     }

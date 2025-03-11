@@ -1,24 +1,15 @@
 const mongoose = require('mongoose');
 
 const CourseSchema = new mongoose.Schema({
-    name:{
-      type:String,
-    },
-    photo:{
-        type:String
-    },
     title:{
         type:String,
     },
-    startingDate:{
+    description:{
       type:String,
     },
-    endingDate:{
+    duration:{
       type:String
-    },
-    courseFee:{
-        type:String
-    },
+    }
   });
 
 const Cousre = mongoose.model('Course', CourseSchema);

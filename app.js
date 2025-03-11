@@ -9,13 +9,13 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 const passport = require("passport");
-const localStrategy = require("passport-local");
+const localStrategy = require("passport-local")
+const methodOverride = require("method-override");
 
 
 const User = require('./models/User');
-
-
-
+const Modal = require('./models/Modal');
+const Gallery = require('./models/Gallery')
 
 
 const multer = require('multer');
@@ -32,10 +32,14 @@ cloudinary.config({
 });
 
 // Connect to MongoDB
-mongoose.connect(process.env.mongo_url)
-.then(() => console.log('MongoDB connected successfully!'))
-.catch(err => console.log('Error connecting to MongoDB: ', err));;
-
+try{
+  mongoose.connect(process.env.mongo_url)
+  .then(() => console.log('MongoDB connected successfully!'))
+  .catch(err => console.log('Error connecting to MongoDB: ', err));;
+  
+} catch(error){
+  console.log("error in connecting mongodb");
+}
 // Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -78,7 +82,7 @@ const Upload = {
   },
 };
 
-
+app.use(methodOverride("_method"));
 app.use(session(sessionOptions));
 app.use(flash());
 
@@ -120,11 +124,13 @@ app.use('/', jobRoutes);
 app.use('/', courseRoutes);
 
 app.get("/", async (req,res)=>{
-    res.render("./index.ejs");
+  const url = await Modal.findOne();
+  res.render("./index.ejs",{url});
 });
 
 app.get("/admin",ensureAuthenticated,isAdmin, async (req,res)=>{
-    res.render("admin/adminIndex.ejs");
+  const url = await Modal.findOne();
+    res.render("admin/adminIndex.ejs",{url});
 });
 
 app.get("/facilities", async (req,res)=>{
@@ -132,12 +138,9 @@ app.get("/facilities", async (req,res)=>{
 });
 
 app.get("/gallery", async (req,res)=>{
-  res.render("gallery.ejs");
+  const images = await Gallery.find();
+  res.render("gallery.ejs",{images});
 });
-
-
-
   
-
 
 app.listen(port, () => console.log(`Server running on http://localhost:${port}`));

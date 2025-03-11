@@ -70,7 +70,7 @@ router.post('/:id/apply', async (req, res) => {
         if (!job) return res.status(404).send("Job not found");
         job.applications.push({ name, mobile, email, qualification });
         await job.save();
-        res.redirect(`/jobs/${req.params.id}`); // Redirect to the job details page
+        res.redirect(`/`); // Redirect to the job details page
     } catch (error) {
         res.status(500).send("Server Error");
     }
@@ -83,6 +83,15 @@ router.get('/jobs/:id/applications',ensureAuthenticated,isAdmin, async (req, res
             return res.status(404).send("Job not found");
         }
         res.render('admin/viewThisJob.ejs', { job });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+router.get('/aboutus',ensureAuthenticated,isAdmin, async (req, res) => {
+    try {
+        res.render('aboutUs.ejs');
     } catch (error) {
         console.error(error);
         res.status(500).send("Internal Server Error");

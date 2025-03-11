@@ -29,6 +29,16 @@ function ensureAuthenticated(req, res, next) {
   res.redirect("/user/login");
 }
 
+//get
+// queries
+router.get("/add/new/enquiry/batch",ensureAuthenticated,isAdmin, async (req, res) => {
+  try {
+    res.render("admin/addQuery.ejs");
+  } catch (err) {
+    res.status(500).send("Server Error");
+  }
+});
+
 // queries
 router.get("/enquiries",ensureAuthenticated,isAdmin, async (req, res) => {
   try {
@@ -90,6 +100,16 @@ router.post("/add/new/query", async (req, res) => {
       console.error("Error:", error);
       req.flash('error_msg', "There was an error processing your query.");
       res.redirect('/');
+  }
+});
+
+//delete enquiry
+router.delete('/enquiry/delete/:id',ensureAuthenticated,isAdmin, async (req, res) => {
+  try {
+      await Enquiry.findByIdAndDelete(req.params.id);
+      res.json({ message: 'Enquiry deleted successfully' });
+  } catch (err) {
+      res.status(500).send('Server Error');
   }
 });
 

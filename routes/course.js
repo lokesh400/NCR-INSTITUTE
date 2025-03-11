@@ -34,8 +34,8 @@ router.get('/add-course',ensureAuthenticated,isAdmin, (req, res) => {
 // POST a new course
 router.post('/courses',ensureAuthenticated,isAdmin, async (req, res) => {
     try {
-        const { name, photo, title, startingDate, endingDate, courseFee } = req.body;
-        const newCourse = new Course({ name, photo, title, startingDate, endingDate, courseFee });
+        const { title, description, duration } = req.body;
+        const newCourse = new Course({ title,description,duration });
         await newCourse.save();
         res.redirect('/courses'); // Redirect to courses page
     } catch (err) {
@@ -43,8 +43,8 @@ router.post('/courses',ensureAuthenticated,isAdmin, async (req, res) => {
     }
 });
 
-// DELETE a course
-router.delete('/courses/:id',ensureAuthenticated,isAdmin, async (req, res) => {
+
+router.delete('/courses/delete/:id',ensureAuthenticated,isAdmin, async (req, res) => {
     try {
         await Course.findByIdAndDelete(req.params.id);
         res.json({ message: 'Course deleted successfully' });

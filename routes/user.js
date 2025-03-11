@@ -1,9 +1,61 @@
 const express = require("express");
 const router = express.Router();
-const User = require('../models/User');
 const passport = require("passport");
 const nodemailer = require('nodemailer');
 const passportLocalMongoose = require('passport-local-mongoose');
+
+const User = require('../models/User');
+const Modal = require('../models/Modal');
+const Gallery = require('../models/Gallery');
+
+const multer = require('multer');
+const path = require('path');
+const cloudinary = require('cloudinary').v2;
+const fs = require('fs');
+const { error } = require("console");
+
+cloudinary.config({
+    cloud_name:process.env.cloud_name, 
+    api_key:process.env.api_key, 
+    api_secret:process.env.api_secret
+});
+
+// Multer disk storage configuration
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    // Save files to 'uploads/' folder
+    cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+    // Use the original file name
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
+});
+
+// Initialize multer with diskStorage
+const upload = multer({ storage: storage });
+
+// Function to upload files to Cloudinary
+const Upload = {
+    uploadFile: async (filePath) => {
+        try {
+            const result = await cloudinary.uploader.upload(filePath, {
+                resource_type: "auto", // Auto-detect file type (image, video, etc.)
+            });
+            return result;
+        } catch (error) {
+            throw new Error("Upload failed: " + error.message);
+        }
+    },
+    deleteFile: async (publicId) => {
+        try {
+            const result = await cloudinary.uploader.destroy(publicId);
+            return result;
+        } catch (error) {
+            throw new Error("Delete failed: " + error.message);
+        }
+    }
+};
 
 
 function ensureAuthenticated(req, res, next) {
@@ -62,6 +114,108 @@ router.get("/logout", (req, res, next) => {
         }
         res.redirect("/"); // Redirect to homepage after logout
     });
+});
+
+router.get('/add/new/modal', (req,res)=>{
+    res.render('admin/modalPhoto.ejs')
+})
+
+//update
+router.get('/update/image', (req,res)=>{
+    res.render('admin/updateModalPhoto.ejs')
+})
+
+router.post('/admin/update/modal', upload.single("file"), async (req, res) => {
+    try {
+        const existingModal = await Modal.findOne({})
+        if (existingModal && existingModal.url) {
+            const publicId = existingModal.url.split("/").pop().split(".")[0];
+            await Upload.deleteFile(publicId);
+        }
+      const result = await Upload.uploadFile(req.file.path);  // Use the path for Cloudinary upload
+      const imageUrl = result.secure_url;
+      fs.unlink(req.file.path, (err) => {
+        if (err) {
+          console.error('Error deleting local file:', err);
+        } else {
+          console.log('Local file deleted successfully');
+        }
+      });
+      const updatedModal = await Modal.findOneAndUpdate(
+        {}, // Find the first (or only) document
+        { url:imageUrl }, // Update with new URL
+        { new: true, upsert: true } // Return updated doc & create if not exists
+    );
+      req.flash('succes_msg',"New Car Added Successfully !");
+      res.redirect('/admin')
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: 'Upload failed: ' + error.message });
+    }
+  });
+
+//add header image
+router.post('/admin/add/new/modal', upload.single("file"), async (req, res) => {
+    try {
+      const result = await Upload.uploadFile(req.file.path);  // Use the path for Cloudinary upload
+      const imageUrl = result.secure_url;
+      fs.unlink(req.file.path, (err) => {
+        if (err) {
+          console.error('Error deleting local file:', err);
+        } else {
+          console.log('Local file deleted successfully');
+        }
+      });
+      const newCar = new Modal( {url:imageUrl });
+      await newCar.save();
+      req.flash('succes_msg',"New Car Added Successfully !");
+      res.redirect('/admin')
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: 'Upload failed: ' + error.message });
+    }
+  });
+
+//add new gallery
+
+router.get('/add/new/gallery/photo', (req,res)=>{
+    res.render('admin/addGallery.ejs');
+})
+
+router.post('/admin/add/new/gallery', upload.single("file"), async (req, res) => {
+    try {
+      const result = await Upload.uploadFile(req.file.path);  // Use the path for Cloudinary upload
+      const imageUrl = result.secure_url;
+      fs.unlink(req.file.path, (err) => {
+        if (err) {
+          console.error('Error deleting local file:', err);
+        } else {
+          console.log('Local file deleted successfully');
+        }
+      });
+      const newCar = new Gallery( {url:imageUrl });
+      await newCar.save();
+      req.flash('succes_msg',"New Car Added Successfully !");
+      res.redirect('/admin')
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: 'Upload failed: ' + error.message });
+    }
+  });
+
+router.delete('/images/delete/:id', upload.single("file"), async (req, res) => {
+    try {
+        const existingModal = await Gallery.findById(req.params.id);
+        if (existingModal) {
+            const publicId = existingModal.url.split("/").pop().split(".")[0];
+            await Upload.deleteFile(publicId);
+        }
+    await Gallery.findByIdAndDelete(req.params.id);
+    res.redirect('/gallery')
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: 'Upload failed: ' + error.message });
+    }
 });
 
 

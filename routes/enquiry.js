@@ -31,7 +31,7 @@ function ensureAuthenticated(req, res, next) {
 
 //get
 // queries
-router.get("/add/new/enquiry/batch",ensureAuthenticated,isAdmin, async (req, res) => {
+router.get("/add/new/enquiry/batch", async (req, res) => {
   try {
     res.render("admin/addQuery.ejs");
   } catch (err) {

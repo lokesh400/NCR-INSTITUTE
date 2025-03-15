@@ -89,7 +89,7 @@ router.get('/jobs/:id/applications',ensureAuthenticated,isAdmin, async (req, res
     }
 });
 
-router.get('/aboutus',ensureAuthenticated,isAdmin, async (req, res) => {
+router.get('/aboutus', async (req, res) => {
     try {
         res.render('aboutUs.ejs');
     } catch (error) {

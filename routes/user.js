@@ -57,13 +57,19 @@ const Upload = {
     }
 };
 
-
 function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-      return next();
-    }
-    res.redirect('/user/login');
+  if (req.isAuthenticated()) {
+    return next();
   }
+  res.redirect('/user/login');
+}
+
+function isAdmin(req, res, next) {
+  if (req.isAuthenticated() && req.user.role === 'admin') {
+    return next();
+  }
+  res.render("./error/accessdenied.ejs");
+}
 
 // Login route
 router.get("/login", (req, res) => {
@@ -116,16 +122,16 @@ router.get("/logout", (req, res, next) => {
     });
 });
 
-router.get('/add/new/modal', (req,res)=>{
+router.get('/add/new/modal',ensureAuthenticated,isAdmin, (req,res)=>{
     res.render('admin/modalPhoto.ejs')
 })
 
 //update
-router.get('/update/image', (req,res)=>{
+router.get('/update/image',ensureAuthenticated,isAdmin, (req,res)=>{
     res.render('admin/updateModalPhoto.ejs')
 })
 
-router.post('/admin/update/modal', upload.single("file"), async (req, res) => {
+router.post('/admin/update/modal',ensureAuthenticated,isAdmin, upload.single("file"), async (req, res) => {
     try {
         const existingModal = await Modal.findOne({})
         if (existingModal && existingModal.url) {
@@ -155,7 +161,7 @@ router.post('/admin/update/modal', upload.single("file"), async (req, res) => {
   });
 
 //add header image
-router.post('/admin/add/new/modal', upload.single("file"), async (req, res) => {
+router.post('/admin/add/new/modal',ensureAuthenticated,isAdmin, upload.single("file"), async (req, res) => {
     try {
       const result = await Upload.uploadFile(req.file.path);  // Use the path for Cloudinary upload
       const imageUrl = result.secure_url;
@@ -178,11 +184,11 @@ router.post('/admin/add/new/modal', upload.single("file"), async (req, res) => {
 
 //add new gallery
 
-router.get('/add/new/gallery/photo', (req,res)=>{
+router.get('/add/new/gallery/photo',ensureAuthenticated,isAdmin, (req,res)=>{
     res.render('admin/addGallery.ejs');
 })
 
-router.post('/admin/add/new/gallery', upload.single("file"), async (req, res) => {
+router.post('/admin/add/new/gallery',ensureAuthenticated,isAdmin, upload.single("file"), async (req, res) => {
     try {
       const result = await Upload.uploadFile(req.file.path);  // Use the path for Cloudinary upload
       const imageUrl = result.secure_url;
@@ -203,7 +209,7 @@ router.post('/admin/add/new/gallery', upload.single("file"), async (req, res) =>
     }
   });
 
-router.delete('/images/delete/:id', upload.single("file"), async (req, res) => {
+router.delete('/images/delete/:id',ensureAuthenticated,isAdmin, upload.single("file"), async (req, res) => {
     try {
         const existingModal = await Gallery.findById(req.params.id);
         if (existingModal) {
@@ -217,7 +223,6 @@ router.delete('/images/delete/:id', upload.single("file"), async (req, res) => {
       res.status(500).json({ message: 'Upload failed: ' + error.message });
     }
 });
-
 
 module.exports = router;
 

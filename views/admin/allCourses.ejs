@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses</title>
+    <link rel="icon" type="image/png" href="../images/logo.jpg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            text-align: center;
+        }
+        h1 {
+            width: 100%;
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .card {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: white;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            width: 300px;
+            text-align: center;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        h2 {
+            font-size: 20px;
+        }
+        .duration {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Top Featured Courses</h1>
+    <div class="card">
+        <h2>CNC - Complete Course for Fresher</h2>
+        <p>(Operating + Setting + Programming)</p>
+        <p class="duration">Duration: 3 Months</p>
+    </div>
+    <div class="card">
+        <h2>CNC - Setting + Programming</h2>
+        <p class="duration">Duration: 2 Months</p>
+    </div>
+    <div class="card">
+        <h2>CNC - Only Programming</h2>
+        <p class="duration">Duration: 1 Month</p>
+    </div>
+    <div class="card">
+        <h2>VMC - Complete Course for Fresher</h2>
+        <p>(Operating + Setting + Programming)</p>
+        <p class="duration">Duration: 3 Months</p>
+    </div>
+    <div class="card">
+        <h2>VMC - Setting + Programming</h2>
+        <p class="duration">Duration: 2 Months</p>
+    </div>
+    <div class="card">
+        <h2>VMC - Only Programming</h2>
+        <p class="duration">Duration: 1 Month</p>
+    </div>
+    <div class="card">
+        <h2>Sunday Special - Only Programming</h2>
+        <p>(CNC or VMC)</p>
+        <p class="duration">Duration: 10 Weeks</p>
+    </div>
+
+    <%if(courses&&courses.length>0){%>
+        <%for(let i=0;i<courses.length;i++){%>
+            <div class="card">
+        <h2><%= courses[i].title %></h2>
+        <p> <%= courses[i].description %> </p>
+        <p class="duration">Duration: <%= courses[i].duration %> Months</p>
+
+        <br>
+
+        <% if (currUser && currUser.role === 'admin') { %>
+            <button class="bg-red-500 text-white px-3 py-1 rounded-lg 
+                           hover:bg-red-700 transition delete-btn"
+                    onclick="deleteJob('<%= courses[i]._id %>')">
+                🗑️ Delete
+            </button>
+        <% } %>
+
+    </div>
+        <%}%>
+    <%}%>
+
+    <script>
+        async function deleteJob(id) {
+            if (confirm('Are you sure you want to delete this course?')) {
+                try {
+                    await fetch(`/courses/delete/${id}`, { method: 'DELETE' });
+                    location.reload();
+                } catch (error) {
+                    console.error("Error deleting job:", error);
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>

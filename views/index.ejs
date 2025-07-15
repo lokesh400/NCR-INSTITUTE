@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NCR Institute</title>
+    <link rel="icon" type="image/png" href="images/logo.jpg">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom.css" rel="stylesheet" />
+    <script
+        src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
+    <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#469A42"
+        data-border-radius="medium"></script>
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <link rel="stylesheet" href="styles/index.css">
+</head>
+
+<body class="font-sans">
+
+
+    <section>
+        <%- include('components/header.ejs') %>
+    </section>
+
+    <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="images/header.jpg" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+                <img src="images/ncr3.jpg" class="d-block w-100" alt="...">
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-8xl mx-auto px-4">
+
+        <section>
+            <%- include('components/main.ejs') %>
+        </section>
+
+        <section>
+            <%- include('components/reviews.ejs') %>
+        </section>
+
+        <section>
+            <%- include('components/quickContact.ejs') %>
+        </section>
+
+        <section>
+            <%- include('components/location.ejs') %>
+        </section>
+
+        <section>
+            <%- include('components/footer.ejs') %>
+        </section>
+
+        <section>
+            <%- include('components/modal.ejs') %>
+        </section>
+
+        <div class="whatsapp-sidebar">
+            <a href="https://wa.me/+919871852221" target="_blank" aria-label="Chat with us on WhatsApp">
+                <i class="fa-brands fa-whatsapp"></i>
+                <p>Whatsapp</p>
+            </a>
+        </div>
+
+
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const carousel = document.getElementById("carousel");
+            const clone = carousel.innerHTML;
+            carousel.innerHTML += clone;
+        });
+        document.getElementById("contactForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+            document.getElementById("fullScreenLoader").classList.remove("hidden");
+            setTimeout(() => {
+                event.target.submit();
+            }, 2000);
+        });
+        AOS.init({ duration: 1000, once: true });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const modal = document.getElementById("pageLoadModal");
+        const closeModalBtn = document.getElementById("closeModal");
+
+        modal.style.display = "flex";
+
+        closeModalBtn.addEventListener("click", function () {
+            modal.remove();
+        });
+
+        // Auto remove modal after 5 seconds
+        // setTimeout(() => {
+        //     modal.remove();
+        // }, 5000);
+    });
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="icon" type="image/png" href="../images/logo.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body class="bg-gradient-to-r from-green-400 to-blue-500 flex justify-center items-center h-screen">
+
+    <!-- Toast Notification -->
+    <% if (error_msg && error_msg.length > 0) { %>
+    <div id="successToast" class="fixed top-5 right-5 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg animate-slideDown">
+        <div class="flex items-center space-x-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none">
+                <path fill="white" d="M12 1.5C6.2 1.5 1.5 6.2 1.5 12s4.7 10.5 10.5 10.5S22.5 17.8 22.5 12 17.8 1.5 12 1.5zm.75 15.6c0 .1-.08.19-.19.19h-1.12c-.1 0-.19-.08-.19-.19v-6.38c0-.1.08-.19.19-.19h1.12c.1 0 .19.08.19.19zm-.75-8.06c-.29 0-.57-.12-.78-.34s-.32-.49-.32-.79.12-.58.32-.79c.21-.21.49-.33.78-.34.29 0 .57.12.78.34s.32.49.32.79-.12.58-.32.79c-.21.21-.49.33-.78.34z"></path>
+            </svg>
+            <span class="text-lg font-semibold"> <%= error_msg %></span>
+        </div>
+    </div>
+    <% } %>
+
+    <!-- Login Form -->
+    <div id="form-main-div" class="bg-white p-8 rounded-lg shadow-lg w-96">
+        <h3 class="text-2xl font-semibold text-center text-gray-800">Login</h3>
+
+        <form action="/user/login" method="POST" novalidate class="needs-validation mt-4 space-y-4">
+            <!-- Email Input -->
+            <div class="relative">
+                <label for="username" class="text-gray-600">Email:</label>
+                <input placeholder="Enter your Email" name="username" type="email" 
+                       class="form-control w-full px-4 py-2 rounded-lg border focus:border-blue-400 focus:ring focus:ring-blue-200 transition transform focus:scale-105"
+                       required>
+                <div class="invalid-feedback text-red-500 text-sm mt-1">Enter a valid email</div>
+            </div>
+
+            <!-- Password Input -->
+            <div class="relative">
+                <label for="password" class="text-gray-600">Password:</label>
+                <input type="password" name="password" placeholder="Enter Password" 
+                       class="form-control w-full px-4 py-2 rounded-lg border focus:border-blue-400 focus:ring focus:ring-blue-200 transition transform focus:scale-105"
+                       required>
+                <div class="invalid-feedback text-red-500 text-sm mt-1">Enter Password</div>
+            </div>
+
+            <!-- Login Button -->
+            <button class="w-full py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition transform hover:scale-105">
+                Login
+            </button>
+
+            <!-- Links -->
+            <p class="text-center text-sm text-gray-600 mt-2">Don't have an account? 
+                <a href="/user/Signup" class="text-blue-500 font-semibold">Signup</a>
+            </p>
+            <p class="text-center text-sm text-gray-600">Forgot Password? 
+                <a href="/user/forget-password" class="text-blue-500 font-semibold">Reset</a>
+            </p>
+        </form>
+    </div>
+
+    <!-- GSAP Animation -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Fade-in effect for form
+            gsap.from("#form-main-div", { opacity: 0, y: 50, duration: 1, ease: "power2.out" });
+
+            // Slide down effect for error toast
+            gsap.from("#successToast", { opacity: 0, y: -50, duration: 1 });
+
+            // Auto-remove toast after 3 seconds
+            setTimeout(() => {
+                const successToast = document.getElementById('successToast');
+                if (successToast) {
+                    gsap.to("#successToast", { opacity: 0, y: -50, duration: 1, onComplete: () => successToast.remove() });
+                }
+            }, 3000);
+        });
+    </script>
+
+</body>
+</html>

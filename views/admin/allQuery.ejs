@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enquiries</title>
+    <link rel="icon" type="image/png" href="../images/logo.jpg">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0c0c0c;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            opacity: 0;
+        }
+        .enquiry-box {
+            background: #1e1e1e;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 8px;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+    </style>
+</head>
+<body>
+
+    <h1 id="heading">Enquiry List</h1>
+    
+    <% enquiries.forEach(enquiry => { %>
+        <div class="enquiry-box">
+            <h3><%= enquiry.name %></h3>
+            <p><i class="fas fa-phone"></i> <%= enquiry.mobile %></p>
+            <p><i class="fas fa-envelope"></i> <%= enquiry.email %></p>
+            <p><%= enquiry.message %></p>
+                <br>
+            <% if (currUser && currUser.role === 'admin') { %>
+                <button class="bg-red-500 text-white px-3 py-1 rounded-lg 
+                               hover:bg-red-700 transition delete-btn"
+                        onclick="deleteJob('<%= enquiry._id %>')">
+                    🗑️ Delete
+                </button>
+            <% } %>
+
+        </div>
+    <% }); %>
+
+    <script>
+        gsap.to("#heading", { opacity: 1, y: -10, duration: 1, ease: "power3.out" });
+
+        gsap.to(".enquiry-box", { 
+            opacity: 1, 
+            y: 0, 
+            duration: 1, 
+            stagger: 0.3, 
+            ease: "power3.out" 
+        });
+
+        async function deleteJob(id) {
+            if (confirm('Are you sure you want to delete this Enquiry?')) {
+                try {
+                    await fetch(`/enquiry/delete/${id}`, { method: 'DELETE' });
+                    location.reload();
+                } catch (error) {
+                    console.error("Error deleting job:", error);
+                }
+            }
+        }
+
+    </script>
+
+</body>
+</html>

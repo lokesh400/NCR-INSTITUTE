@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Jobs</title>
+    <link rel="icon" type="image/png" href="../images/logo.jpg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body class="bg-gray-50 p-6">
+
+    <div class="max-w-5xl mx-auto">
+        <!-- Page Header -->
+        <h1 class="text-4xl font-extrabold text-center text-gray-900 drop-shadow-lg">
+            🚀 Explore All Jobs
+        </h1>
+        <p class="text-center text-gray-600 mt-2">
+            Find your dream job or post one for others!
+        </p>
+
+        <!-- Admin: Add Job Button -->
+        <% if (currUser && currUser.role === 'admin') { %>
+            <div class="flex justify-center mt-6">
+                <a href="/add-job" class="bg-green-600 text-white px-5 py-3 rounded-lg shadow-lg 
+                    hover:bg-green-700 transition transform hover:scale-105 flex items-center gap-2">
+                    ➕ Add New Job
+                </a>
+            </div>
+        <% } %>
+
+        <!-- Job Listings -->
+        <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6 mt-8 jobs-container opacity-0">
+            <% jobs.forEach(job => { %>
+                <div class="bg-white p-6 rounded-xl shadow-lg transition transform hover:scale-105 hover:shadow-2xl job-card">
+                    <h2 class="text-xl font-semibold text-gray-800">
+                        <%= job.title %>
+                    </h2>
+                    <p class="text-gray-600 mt-1"><strong>🏢 Company:</strong> <%= job.company %></p>
+                    <p class="text-gray-600"><strong>📍 Location:</strong> <%= job.location %></p>
+                    <p class="text-gray-500 text-sm mt-3 line-clamp-2"><%= job.description %></p>
+
+                    <br>
+                    
+                    <a href="/apply/<%= job._id %>">
+                        <button class="bg-red-500 text-white px-3 py-1 rounded-lg 
+                                           hover:bg-red-700 transition delete-btn"
+                                    onclick="applyJob('<%= job._id %>')">
+                                Apply Now
+                        </button>
+                    </a>
+                    
+                    <div class="mt-4 flex justify-between items-center">
+                        <% if (currUser && currUser.role === 'admin') { %>
+
+                            <a href="/jobs/<%= job._id %>/applications" 
+                                class="text-blue-600 font-semibold hover:text-blue-800 transition">
+                                 🔍 View Details →
+                             </a>
+
+                            <button class="bg-red-500 text-white px-3 py-1 rounded-lg 
+                                           hover:bg-red-700 transition delete-btn"
+                                    onclick="deleteJob('<%= job._id %>')">
+                                🗑️ Delete
+                            </button>
+                        <% } %>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+
+    <script>
+        // Animate job cards appearance with fade-in & slide-up effect
+        gsap.to(".jobs-container", { opacity: 1, y: -20, duration: 1, ease: "power3.out" });
+
+        async function deleteJob(id) {
+            if (confirm('Are you sure you want to delete this job?')) {
+                try {
+                    await fetch(`/jobs/${id}`, { method: 'DELETE' });
+                    location.reload();
+                } catch (error) {
+                    console.error("Error deleting job:", error);
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="icon" type="image/png" href="../images/logo.jpg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body class="bg-green-50 font-sans">
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-5 right-5 bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg hidden">
+        <span id="toastMessage">This is a notification</span>
+    </div>
+
+    <!-- Navbar -->
+    <div class="p-4 flex items-center justify-between bg-white shadow-lg">
+        <div class="flex items-center space-x-2">
+            <img src="https://via.placeholder.com/40" class="w-10 h-10 rounded-full" alt="User">
+            <h2 class="text-gray-800 font-semibold">NCR Institute Of CNC And VMC</h2>
+        </div>
+        <button class="p-2 bg-gray-200 rounded-full">🔒</button>
+    </div>
+
+    <!-- Card Container -->
+    <div class="grid md:grid-cols-3 sm:grid-cols-1 gap-6 p-6 animation">
+
+        <!-- Enquiries Card -->
+        <div class="bg-white p-6 rounded-xl shadow-md transform transition duration-300 hover:scale-105 hover:shadow-xl">
+            <h2 class="text-xl font-semibold mb-3">📩 Enquiries</h2>
+            <a href="/enquiries">
+                <button onclick="showToast('Showing all enquiries', 'success')" class="px-4 py-2 bg-green-600 text-white rounded-full">All Enquiries</button>
+            </a>
+        </div>
+
+        <!-- Jobs Card -->
+        <div class="bg-white p-6 rounded-xl shadow-md transform transition duration-300 hover:scale-105 hover:shadow-xl">
+            <h2 class="text-xl font-semibold mb-3">💼 All About Jobs</h2>
+            <div>
+                <a href="/jobs">
+                    <button onclick="showToast('Navigating to all jobs', 'info')" class="px-4 py-2 bg-green-600 text-white rounded-full">All Jobs</button>
+                </a>
+                <a href="/add-job">
+                    <button onclick="showToast('Adding a new job', 'success')" class="px-4 py-2 bg-green-600 text-white rounded-full ml-2">Add New Job</button>
+                </a>
+            </div>
+        </div>
+
+        <!-- Courses Card -->
+        <div class="bg-white p-6 rounded-xl shadow-md transform transition duration-300 hover:scale-105 hover:shadow-xl">
+            <h2 class="text-xl font-semibold mb-3">📚 Courses</h2>
+            <div>
+                <a href="/courses">
+                    <button onclick="showToast('Navigating to all courses', 'info')" class="px-4 py-2 bg-green-600 text-white rounded-full">All Courses</button>
+                </a>
+                <a href="/add-course">
+                    <button onclick="showToast('Adding a new course', 'success')" class="px-4 py-2 bg-green-600 text-white rounded-full ml-2">Add New Course</button>
+                </a>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow-md transform transition duration-300 hover:scale-105 hover:shadow-xl">
+            <h2 class="text-xl font-semibold mb-3">📚 Modal Photo</h2>
+            <div>
+
+                <%if(url){%>
+                    <a href="/user/update/image">
+                       <button class="px-4 py-2 bg-green-600 text-white rounded-full ml-2">Update Image</button>
+                    </a>
+                <%}else{%>
+                    <a href="/user/add/new/modal">
+                        <button onclick="showToast('Navigating to all modal', 'info')" class="px-4 py-2 bg-green-600 text-white rounded-full">Add Modal</button>
+                    </a>
+                <%}%>    
+
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow-md transform transition duration-300 hover:scale-105 hover:shadow-xl">
+            <h2 class="text-xl font-semibold mb-3">📚 Gallery Photo</h2>
+            <div>
+                    <a href="/user/add/new/gallery/photo">
+                       <button class="px-4 py-2 bg-green-600 text-white rounded-full ml-2">Add Gallery Image</button>
+                    </a>
+                    <a href="/gallery">
+                        <button onclick="showToast('Navigating to all Photos', 'info')" class="px-4 py-2 bg-green-600 text-white rounded-full">All Images</button>
+                    </a>
+            </div>
+        </div>
+
+        
+        
+
+    </div>
+
+    <!-- GSAP Animations -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            gsap.from(".animation", { opacity: 0, y: 30, duration: 1, stagger: 0.3, ease: "power3.out" });
+        });
+
+        function showToast(message, type) {
+            const toast = document.getElementById("toast");
+            const toastMessage = document.getElementById("toastMessage");
+
+            // Change color based on type
+            toast.classList.remove("bg-blue-500", "bg-green-500", "bg-red-500");
+            if (type === "success") {
+                toast.classList.add("bg-green-500");
+            } else if (type === "error") {
+                toast.classList.add("bg-red-500");
+            } else {
+                toast.classList.add("bg-blue-500");
+            }
+
+            // Set message and show toast
+            toastMessage.innerText = message;
+            toast.classList.remove("hidden");
+            gsap.fromTo(toast, { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.5 });
+
+            // Hide after 3 seconds
+            setTimeout(() => {
+                gsap.to(toast, { opacity: 0, y: -20, duration: 0.5, onComplete: () => toast.classList.add("hidden") });
+            }, 3000);
+        }
+    </script>
+
+</body>
+</html>

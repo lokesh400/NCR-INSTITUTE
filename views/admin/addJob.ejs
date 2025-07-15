@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Job</title>
+    <link rel="icon" type="image/png" href="../images/logo.jpg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body class="bg-gradient-to-br from-green-200 to-green-500 flex items-center justify-center min-h-screen">
+
+    <div class="text-center">
+        <h1 class="text-3xl font-bold text-white mb-6 drop-shadow-lg">🚀 Add a New Job</h1>
+
+        <!-- Job Form Card -->
+        <div class="container bg-white max-w-md p-6 rounded-xl shadow-xl animation">
+            <form action="/jobs" method="POST" class="space-y-4">
+                <input type="text" name="title" placeholder="Job Title" required class="input-field">
+                <textarea name="description" placeholder="Job Description" required class="input-field h-24"></textarea>
+                <input type="text" name="role" placeholder="Role" required class="input-field">
+                <input type="text" name="company" placeholder="Company Name" required class="input-field">
+                <input type="text" name="location" placeholder="Location" required class="input-field">
+                
+                <!-- Submit Button -->
+                <button type="submit" class="w-full bg-green-600 text-white font-semibold py-3 rounded-lg hover:bg-green-700 transition duration-300 ease-in-out transform hover:scale-105">
+                    ✅ Add Job
+                </button>
+            </form>
+        </div>
+
+        <br>
+        <a href="/jobs" class="text-white text-lg underline hover:text-green-900 transition">🔍 View All Jobs</a>
+    </div>
+
+    <script>
+        // GSAP Animations
+        document.addEventListener("DOMContentLoaded", () => {
+            gsap.from(".animation", { opacity: 0, y: 50, duration: 1, ease: "power3.out" });
+        });
+    </script>
+
+    <style>
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            transition: all 0.3s ease-in-out;
+            outline: none;
+        }
+        .input-field:focus {
+            border-color: #2a9d8f;
+            box-shadow: 0 0 10px rgba(42, 157, 143, 0.3);
+        }
+    </style>
+
+</body>
+</html>

@@ -172,17 +172,17 @@ function startKeepAlive() {
 
 startKeepAlive();
 
+// 404 handler
+app.use((req, res) => {
+    res.status(404).render('error/404');
+});
+
 // Global error handler
 app.use((err, req, res, next) => {
     console.error('Global error handler:', err.stack);
     res.status(500).render('error/500', { 
         error: process.env.NODE_ENV === 'production' ? 'Internal Server Error' : err.message 
     });
-});
-
-// 404 handler
-app.use((req, res) => {
-    res.status(404).render('error/404');
 });
 
 // Start server

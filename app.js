@@ -1,7 +1,18 @@
 const express = require("express");
 require('dotenv').config();
+
+// Validate required environment variables
+const requiredEnvVars = ['mongo_url', 'secret', 'cloud_name', 'api_key', 'api_secret'];
+const missingEnvVars = requiredEnvVars.filter(varName => !process.env[varName]);
+
+if (missingEnvVars.length > 0) {
+    console.error('FATAL ERROR: Missing required environment variables:', missingEnvVars.join(', '));
+    console.error('Please set these in your Render dashboard under Environment Variables');
+    process.exit(1);
+}
+
 const app = express();
-const port = 666;
+const port = process.env.PORT || 3000; // Default to 3000 for local development
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const path = require("path");
@@ -31,15 +42,6 @@ cloudinary.config({
     api_secret:process.env.api_secret,
 });
 
-// Connect to MongoDB
-try{
-  mongoose.connect(process.env.mongo_url)
-  .then(() => console.log('MongoDB connected successfully!'))
-  .catch(err => console.log('Error connecting to MongoDB: ', err));;
-  
-} catch(error){
-  console.log("error in connecting mongodb");
-}
 // Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -160,4 +162,31 @@ function startKeepAlive() {
 
 startKeepAlive();
 
-app.listen(port, () => console.log(`Server running on http://localhost:${port}`));
+// 404 handler
+app.use((req, res, next) => {
+    res.status(404).render('error/404');
+});
+
+// Global error handler
+app.use((err, req, res, next) => {
+    console.error('Global error handler:', err.stack);
+    res.status(500).render('error/500', { 
+        error: process.env.NODE_ENV === 'production' ? 'Internal Server Error' : err.message 
+    });
+});
+
+// Connect to MongoDB and start server
+mongoose.connect(process.env.mongo_url)
+  .then(() => {
+      console.log('✓ MongoDB connected successfully!');
+      
+      // Start server
+      app.listen(port, () => {
+          console.log(`Server is running on port ${port}`);
+      });
+  })
+  .catch(err => {
+      console.error('✗ Error connecting to MongoDB:', err.message);
+      console.error('Please check your mongo_url environment variable');
+      process.exit(1);
+  });

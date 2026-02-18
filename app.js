@@ -42,16 +42,6 @@ cloudinary.config({
     api_secret:process.env.api_secret,
 });
 
-// Connect to MongoDB
-mongoose.connect(process.env.mongo_url)
-  .then(() => {
-      console.log('✓ MongoDB connected successfully!');
-  })
-  .catch(err => {
-      console.error('✗ Error connecting to MongoDB:', err.message);
-      console.error('Please check your mongo_url environment variable');
-      process.exit(1);
-  });
 // Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -185,7 +175,18 @@ app.use((err, req, res, next) => {
     });
 });
 
-// Start server
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-});
+// Connect to MongoDB and start server
+mongoose.connect(process.env.mongo_url)
+  .then(() => {
+      console.log('✓ MongoDB connected successfully!');
+      
+      // Start server
+      app.listen(port, () => {
+          console.log(`Server is running on port ${port}`);
+      });
+  })
+  .catch(err => {
+      console.error('✗ Error connecting to MongoDB:', err.message);
+      console.error('Please check your mongo_url environment variable');
+      process.exit(1);
+  });

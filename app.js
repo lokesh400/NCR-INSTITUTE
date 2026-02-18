@@ -63,10 +63,10 @@ const Upload = {
 // Session configuration using mongoose connection
 const sessionOptions = {
   secret: process.env.secret,
-  resave:false,
-  saveUninitialized:true,
+  resave: false,
+  saveUninitialized: true,
   cookie:{
-    expires: Date.now() + 3*24*60*60*1000,
+    expires: new Date(Date.now() + 3*24*60*60*1000),
     maxAge: 3*24*60*60*1000,
     httpOnly: true,
   },

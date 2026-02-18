@@ -141,6 +141,23 @@ app.get("/gallery", async (req,res)=>{
   const images = await Gallery.find();
   res.render("gallery.ejs",{images});
 });
-  
+
+app.get("/test", (req, res) => {
+  res.status(200).json({ status: "alive", time: Date.now() });
+});
+
+function startKeepAlive() {
+  setInterval(async () => {
+    try {
+      const res = await fetch('https://ncr-institute.onrender.com/test');
+      if (!res.ok) throw new Error("Ping failed");
+      console.log("✅ Self ping successful");
+    } catch (err) {
+      console.error("❌ Self ping error:", err.message);
+    }
+  }, 2000); // 2 seconds
+}
+
+startKeepAlive();
 
 app.listen(port, () => console.log(`Server running on http://localhost:${port}`));

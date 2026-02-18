@@ -42,11 +42,10 @@ cloudinary.config({
 
 // Connect to MongoDB with better error handling
 mongoose.connect(process.env.mongo_url, {
-  serverSelectionTimeoutMS: 5000,
+  serverSelectionTimeoutMS: 30000,
 })
 .then(() => {
   console.log('MongoDB connected successfully!');
-  console.log('Database:', process.env.mongo_url.split('/').pop().split('?')[0]);
 })
 .catch(err => {
   console.error('FATAL: MongoDB connection failed:', err.message);
@@ -184,6 +183,15 @@ startKeepAlive();
 
 // 404 handler
 app.use((req, res) => {
+  // Escape the URL to prevent XSS
+  const escapeHtml = (str) => str.replace(/[&<>"']/g, (char) => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  })[char]);
+  
   res.status(404).send(`
     <!DOCTYPE html>
     <html>
@@ -196,7 +204,7 @@ app.use((req, res) => {
     </head>
     <body>
       <h1>404 - Page Not Found</h1>
-      <p>The page <strong>${req.url}</strong> does not exist.</p>
+      <p>The page <strong>${escapeHtml(req.url)}</strong> does not exist.</p>
       <a href="/">Go back to homepage</a>
     </body>
     </html>

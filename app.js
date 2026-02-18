@@ -83,7 +83,7 @@ const Upload = {
 };
 
 app.use(methodOverride("_method"));
-app.use(session(sessionOptions));
+//app.use(session(sessionOptions));
 app.use(flash());
 
 app.use(passport.initialize());

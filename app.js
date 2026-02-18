@@ -1,7 +1,16 @@
 const express = require("express");
 require('dotenv').config();
 const app = express();
-const port = 666;
+
+// Validate required environment variables
+const requiredEnvVars = ['mongo_url', 'secret', 'cloud_name', 'api_key', 'api_secret'];
+const missingEnvVars = requiredEnvVars.filter(varName => !process.env[varName]);
+
+if (missingEnvVars.length > 0) {
+  console.error('ERROR: Missing required environment variables:', missingEnvVars.join(', '));
+  console.error('Please set these variables in your Render environment settings.');
+  process.exit(1);
+}
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const path = require("path");
@@ -31,15 +40,18 @@ cloudinary.config({
     api_secret:process.env.api_secret,
 });
 
-// Connect to MongoDB
-try{
-  mongoose.connect(process.env.mongo_url)
-  .then(() => console.log('MongoDB connected successfully!'))
-  .catch(err => console.log('Error connecting to MongoDB: ', err));;
-  
-} catch(error){
-  console.log("error in connecting mongodb");
-}
+// Connect to MongoDB with better error handling
+mongoose.connect(process.env.mongo_url, {
+  serverSelectionTimeoutMS: 30000,
+})
+.then(() => {
+  console.log('MongoDB connected successfully!');
+})
+.catch(err => {
+  console.error('FATAL: MongoDB connection failed:', err.message);
+  console.error('Cannot start server without database connection');
+  process.exit(1);
+});
 // Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -55,8 +67,8 @@ app.use(express.json());
 //  touchAfter: 24*3600
 //})
 
-//store.on("error", ()=>{
-//  console.log("error in connecting mongo session store",error)
+//store.on("error", (err)=>{
+//  console.log("error in connecting mongo session store",err)
 //})
 
 //const sessionOptions = {
@@ -146,6 +158,15 @@ app.get("/test", (req, res) => {
   res.status(200).json({ status: "alive", time: Date.now() });
 });
 
+// Health check endpoint for monitoring
+app.get('/health', (req, res) => {
+  res.status(200).json({ 
+    status: 'ok', 
+    mongodb: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
+    uptime: process.uptime()
+  });
+});
+
 function startKeepAlive() {
   setInterval(async () => {
     try {
@@ -160,4 +181,75 @@ function startKeepAlive() {
 
 startKeepAlive();
 
-app.listen(port, () => console.log(`Server running on http://localhost:${port}`));
+// 404 handler
+app.use((req, res) => {
+  // Escape the URL to prevent XSS
+  const escapeHtml = (str) => str.replace(/[&<>"']/g, (char) => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  })[char]);
+  
+  res.status(404).send(`
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>404 - Page Not Found</title>
+      <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+        h1 { color: #333; }
+      </style>
+    </head>
+    <body>
+      <h1>404 - Page Not Found</h1>
+      <p>The page <strong>${escapeHtml(req.url)}</strong> does not exist.</p>
+      <a href="/">Go back to homepage</a>
+    </body>
+    </html>
+  `);
+});
+
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error('Unhandled error:', err);
+  res.status(500).send(`
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>500 - Server Error</title>
+      <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+        h1 { color: #d9534f; }
+      </style>
+    </head>
+    <body>
+      <h1>500 - Internal Server Error</h1>
+      <p>Something went wrong. Please try again later.</p>
+      <a href="/">Go back to homepage</a>
+    </body>
+    </html>
+  `);
+});
+
+// Start the server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+}).on('error', (err) => {
+  console.error('Failed to start server:', err);
+  process.exit(1);
+});
+
+// Handle unhandled promise rejections
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+});
+
+// Handle uncaught exceptions
+process.on('uncaughtException', (error) => {
+  console.error('Uncaught Exception:', error);
+  process.exit(1);
+});

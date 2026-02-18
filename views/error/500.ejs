@@ -75,7 +75,7 @@
         <p class="error-description">
             Oops! Something went wrong on our server. We're working to fix the issue.
         </p>
-        <% if (typeof error !== 'undefined' && error !== 'Internal Server Error') { %>
+        <% if (typeof error !== 'undefined' && error && error !== 'Internal Server Error') { %>
         <div class="error-details">
             <strong>Error Details:</strong><br>
             <%= error %>

@@ -12,7 +12,7 @@ if (missingEnvVars.length > 0) {
 }
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3000; // Default to 3000 for local development
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const path = require("path");
